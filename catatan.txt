@@ -1,0 +1,19 @@
+laravel banyak ekosistemnya
+
+salah satu ekosistem namanya breeze
+breeze ini simpel, includ login, regis, email verif, yg paling penting
+udah nempel tailwind namanya
+inertia sebagai modern monolith js, bisa menempel di framework manapun
+
+kalopun pake vue atau reqact itupun udah ada inertia nya
+
+fake adalah dummy database
+
+
+pertama bikin migration untuk kebutuhan database
+
+fungsinya untuk generate ke db field apa aja yg mau kita punya
+
+npm i daisyui = library, supaya gampang desainnya soalnya males kalo bikin dari kosongan css
+
+component = supaya lebih enak main data nya
