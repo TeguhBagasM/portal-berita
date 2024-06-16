@@ -137,11 +137,21 @@ export default function Dashboard(props) {
                                         </p>
                                     </div>
                                     <div className="card-actions justify-end p-4">
-                                        <div className="badge badge-outline bg-red-500 text-white cursor-pointer hover:bg-red-600 transition duration-300">
+                                        <div className="badge badge-outline bg-blue-500 text-white cursor-pointer hover:bg-blue-700 transition duration-300">
+                                            <Link
+                                                href={route("edit.news")}
+                                                as="button"
+                                                method="get"
+                                                data={{ id: news.id }}
+                                            >
+                                                Update
+                                            </Link>
+                                        </div>
+                                        <div className="badge badge-outline bg-red-500 text-white cursor-pointer hover:bg-red-700 transition duration-300">
                                             <Link
                                                 href={route("delete.news")}
                                                 as="button"
-                                                method="post"
+                                                method="delete"
                                                 data={{ id: news.id }}
                                             >
                                                 Delete

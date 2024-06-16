@@ -15,7 +15,7 @@ Route::get('/news/edit', [NewsController::class, 'edit'])
 ->middleware(['auth', 'verified'])->name('edit.news');
 Route::put('/news/{id}', [NewsController::class, 'update'])->name('news.update');
 
-Route::post('/news/delete', [NewsController::class, 'destroy'])
+Route::delete('/news/delete', [NewsController::class, 'destroy'])
 ->middleware(['auth', 'verified'])->name('delete.news');
 
 

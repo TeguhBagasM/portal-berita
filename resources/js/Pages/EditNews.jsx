@@ -15,7 +15,6 @@ export default function EditNews(props) {
     const handleSubmit = (event) => {
         event.preventDefault(); // Prevent default form submission
         const formData = new FormData();
-        formData.append("id", props.myNews.id);
         formData.append("title", title);
         formData.append("description", description);
         formData.append("category", category);
@@ -23,16 +22,20 @@ export default function EditNews(props) {
             formData.append("image", image);
         }
 
-        Inertia.put(route("news.update", { id: props.myNews.id }), formData, {
+        console.log(
+            "Submitting form to route:",
+            route("news.update", props.myNews.id)
+        );
+
+        Inertia.put(route("news.update", props.myNews.id), formData, {
             headers: {
                 "Content-Type": "multipart/form-data",
             },
             onSuccess: () => {
+                console.log("Form submitted successfully.");
                 setIsNotif(true);
-                setTitle("");
-                setDescription("");
-                setCategory("");
-                setImage(null);
+                // Redirect to the dashboard or another page after successful update
+                Inertia.visit(route("dashboard"));
             },
             onError: (errors) => {
                 console.error(errors);
@@ -61,39 +64,42 @@ export default function EditNews(props) {
                                 News Updated Successfully!
                             </div>
                         )}
-                        <input
-                            type="text"
-                            placeholder="Title"
-                            className="input input-bordered w-full m-2"
-                            onChange={(e) => setTitle(e.target.value)}
-                            value={title}
-                        />
-                        <input
-                            type="text"
-                            placeholder="Description"
-                            className="input input-bordered w-full m-2"
-                            onChange={(e) => setDescription(e.target.value)}
-                            value={description}
-                        />
-                        <input
-                            type="text"
-                            placeholder="Category"
-                            className="input input-bordered w-full m-2"
-                            onChange={(e) => setCategory(e.target.value)}
-                            value={category}
-                        />
-                        <input
-                            type="file"
-                            placeholder="Image"
-                            className="input input-bordered w-full m-2"
-                            onChange={(e) => setImage(e.target.files[0])}
-                        />
-                        <button
-                            className="btn btn-primary m-2"
-                            onClick={handleSubmit}
-                        >
-                            Update
-                        </button>
+                        <form onSubmit={handleSubmit}>
+                            <input
+                                type="text"
+                                placeholder="Title"
+                                className="input input-bordered w-full m-2"
+                                onChange={(e) => setTitle(e.target.value)}
+                                value={title}
+                            />
+                            <input
+                                type="text"
+                                placeholder="Description"
+                                className="input input-bordered w-full m-2"
+                                onChange={(e) => setDescription(e.target.value)}
+                                value={description}
+                            />
+                            <input
+                                type="text"
+                                placeholder="Category"
+                                className="input input-bordered w-full m-2"
+                                onChange={(e) => setCategory(e.target.value)}
+                                value={category}
+                            />
+                            <input
+                                type="file"
+                                placeholder="Image"
+                                className="input input-bordered w-full m-2"
+                                onChange={(e) => setImage(e.target.files[0])}
+                            />
+                            <button
+                                onClick={handleSubmit}
+                                type="submit"
+                                className="btn btn-primary m-2"
+                            >
+                                Update
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>

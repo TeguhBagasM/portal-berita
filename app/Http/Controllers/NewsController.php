@@ -89,47 +89,44 @@ class NewsController extends Controller
     /**
      * Update the specified resource in storage.
      */
+    
     public function update(Request $request, $id)
     {
         $request->validate([
-            'title' => 'required|string|max:150',
-            'description' => 'required|string|max:255',
-            'category' => 'required|string|max:150',
-            'image' => 'nullable|file|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
-
-        $news = News::findOrFail($id);
-
-        if ($request->hasFile('image')) {
-            $oldImagePath = public_path('cover/' . $news->image);
-            if (file_exists($oldImagePath)) {
-                unlink($oldImagePath);
+                'title' => 'required|string|max:150',
+                'description' => 'required|string|max:255',
+                'category' => 'required|string|max:150',
+                'image' => 'nullable|file|image|mimes:jpeg,png,jpg,gif|max:2048',
+            ]);
+        
+            $news = News::findOrFail($id);
+    
+            if ($request->hasFile('image')) {
+                $oldImagePath = public_path('cover/' . $news->image);
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
+        
+                $extension = $request->file('image')->getClientOriginalExtension();
+                $newName = $request->title . '-' . now()->timestamp . '.' . $extension;
+                $request->file('image')->move(public_path('cover'), $newName);
+        
+                $news->update([
+                    'title' => $request->title,
+                    'description' => $request->description,
+                    'category' => $request->category,
+                    'image' => $newName,
+                ]);
+            } else {
+                $news->update([
+                    'title' => $request->title,
+                    'description' => $request->description,
+                    'category' => $request->category,
+                ]);
             }
-
-            $extension = $request->file('image')->getClientOriginalExtension();
-            $newName = $request->title . '-' . now()->timestamp . '.' . $extension;
-            $request->file('image')->move(public_path('cover'), $newName);
-
-            $news->update([
-                'title' => $request->title,
-                'description' => $request->description,
-                'category' => $request->category,
-                'image' => $newName,
-            ]);
-        } else {
-            $news->update([
-                'title' => $request->title,
-                'description' => $request->description,
-                'category' => $request->category,
-            ]);
-        }
-
+        
         return redirect()->route('dashboard')->with('message', 'News Updated Successfully');
     }
-
-
-
-
     /**
      * Remove the specified resource from storage.
      */
